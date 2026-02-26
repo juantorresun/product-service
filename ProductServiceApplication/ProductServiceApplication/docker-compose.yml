@@ -1,0 +1,28 @@
+services:
+
+  mongo:
+    image: mongo:7.0
+    container_name: product-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: productdb
+    volumes:
+      - mongo_data:/data/db
+
+  product-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-service
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/productdb
+
+volumes:
+  mongo_data:
