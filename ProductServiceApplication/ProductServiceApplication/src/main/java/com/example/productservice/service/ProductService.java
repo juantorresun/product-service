@@ -18,23 +18,22 @@ public class ProductService {
 
     private final ProductRepository repository;
 
-public Product create(ProductRequest request) {
+    public Product create(ProductRequest request) {
+        Product product = new Product();
+        product.setId(java.util.UUID.randomUUID().toString());
+        product.setTitle(request.getTitle());
+        product.setSku(request.getSku());
+        product.setPriceUnit(request.getPriceUnit());
+        product.setQuantity(request.getQuantity());
+        product.setImageUrl(request.getImageUrl());
+        product.setCategoryId(request.getCategoryId());
+        product.setCategoryTitle(request.getCategoryTitle());
+        product.setLikesCount(0);
+        product.setCreatedAt(LocalDateTime.now().toString());
+        product.setUpdatedAt(LocalDateTime.now().toString());
 
-    Product product = Product.builder()
-            .title(request.getTitle())
-            .sku(request.getSku())
-            .priceUnit(request.getPriceUnit())
-            .quantity(request.getQuantity())
-            .imageUrl(request.getImageUrl())
-            .categoryId(request.getCategoryId())
-            .categoryTitle(request.getCategoryTitle())
-            .likesCount(0)
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
-            .build();
-
-    return repository.save(product);
-}
+        return repository.save(product);
+    }
 
     public List<Product> findAll() {
         return repository.findAll();
@@ -48,19 +47,19 @@ public Product create(ProductRequest request) {
 
     public Product update(String id, ProductRequest request) {
 
-    Product existing = findById(id);
+        Product existing = findById(id);
 
-    existing.setTitle(request.getTitle());
-    existing.setSku(request.getSku());
-    existing.setPriceUnit(request.getPriceUnit());
-    existing.setQuantity(request.getQuantity());
-    existing.setImageUrl(request.getImageUrl());
-    existing.setCategoryId(request.getCategoryId());
-    existing.setCategoryTitle(request.getCategoryTitle());
-    existing.setUpdatedAt(LocalDateTime.now());
+        existing.setTitle(request.getTitle());
+        existing.setSku(request.getSku());
+        existing.setPriceUnit(request.getPriceUnit());
+        existing.setQuantity(request.getQuantity());
+        existing.setImageUrl(request.getImageUrl());
+        existing.setCategoryId(request.getCategoryId());
+        existing.setCategoryTitle(request.getCategoryTitle());
+        existing.setUpdatedAt(LocalDateTime.now().toString());
 
-    return repository.save(existing);
-}
+        return repository.save(existing);
+    }
 
     public void delete(String id) {
         repository.deleteById(id);
